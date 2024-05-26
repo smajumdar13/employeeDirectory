@@ -4,6 +4,8 @@ import com.practice.employeeDirectory.domain.Employee;
 import com.practice.employeeDirectory.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +19,13 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("")
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("{empId}")
-    public Optional<Employee> getEmployee(@PathVariable int empId) {
-        return employeeService.getEmployeeById(empId);
+    public ResponseEntity<Optional<Employee>> getEmployee(@PathVariable int empId) {
+        return new ResponseEntity<>(employeeService.getEmployeeById(empId), HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -39,6 +41,11 @@ public class EmployeeController {
     @PutMapping("")
     public void updateEmployee(@RequestBody Employee employee) {
         employeeService.updateEmployee( employee);
+    }
+
+    @GetMapping("dept")
+    public ResponseEntity<List<Employee>> getEmployeesWithDepartments() {
+        return new ResponseEntity<>(employeeService.getEmployeesWithDepartments(), HttpStatus.FOUND);
     }
 
     @PostConstruct

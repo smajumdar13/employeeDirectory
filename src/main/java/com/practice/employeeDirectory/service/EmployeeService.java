@@ -4,6 +4,7 @@ import com.practice.employeeDirectory.domain.Employee;
 import com.practice.employeeDirectory.dao.EmployeeDAO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +43,9 @@ public class EmployeeService {
         System.out.println("Employee Service is ready.");
     }
 
+    public List<Employee> getEmployeesWithDepartments() {
+        return employeeDAO.getEmployeesWithDepartments();
+    }
 
     // update all parameters(using the map function) except id, and replace
 //    public void updateEmployee(int empId, Employee employee) {
