@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,10 +36,11 @@ class EmployeeControllerTest {
         when(employeeService.getAllEmployees()).thenReturn(expectedList);
 
         //When
-        List<Employee> actualList = employeeController.getAllEmployees();
+        ResponseEntity<List<Employee>> actualList = employeeController.getAllEmployees();
 
         //Then
-        assertThat(actualList).isEqualTo(expectedList);
+        assertThat(actualList.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actualList.getBody()).isEqualTo(expectedList);
     }
 
     @Test
@@ -48,10 +51,11 @@ class EmployeeControllerTest {
         when(employeeService.getEmployeeById(empId)).thenReturn(Optional.of(expectedEmployee));
 
         // When
-        Optional<Employee> actualEmployee = employeeController.getEmployee(empId);
+        ResponseEntity<Optional<Employee>> actualEmployee = employeeController.getEmployee(empId);
 
         // Then
-        assertThat(actualEmployee.get()).isEqualTo(expectedEmployee);
+        assertThat(actualEmployee.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actualEmployee.getBody().get()).isEqualTo(expectedEmployee);
     }
 
 }

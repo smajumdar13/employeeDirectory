@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.practice.employeeDirectory.factories.DepartmentFactory.createDepartment;
+import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +33,7 @@ class DepartmentControllerTest {
     @Test
     public void shouldReturnListOfDepartments() {
         // Given
-        List<Department> expectedList = new ArrayList<>();
+        List<Department> expectedList = singletonList(createDepartment());
         when(departmentService.getAllDepartments()).thenReturn(expectedList);
 
         // When
@@ -44,11 +46,12 @@ class DepartmentControllerTest {
     @Test
     public void shouldGetDepartmentByDeptNo() {
         // Given
-        Department expectedDepartment = new Department();
-        when(departmentService.getDepartmentByDeptNo(any(String.class))).thenReturn(Optional.of(expectedDepartment));
+        Department expectedDepartment = createDepartment();
+        String deptNo = expectedDepartment.getDeptNo();
+        when(departmentService.getDepartmentByDeptNo(deptNo)).thenReturn(Optional.of(expectedDepartment));
 
         // When
-        Optional<Department> actualDepartment = departmentController.getDepartmentByDeptNo(randomAlphabetic(4));
+        Optional<Department> actualDepartment = departmentController.getDepartmentByDeptNo(deptNo);
 
         // Then
         assertThat(actualDepartment.get()).isEqualTo(expectedDepartment);
