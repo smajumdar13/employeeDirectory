@@ -1,6 +1,7 @@
 package com.practice.employeeDirectory.controller;
 
 import com.practice.employeeDirectory.domain.Employee;
+import com.practice.employeeDirectory.mapper.EmployeeMapper;
 import com.practice.employeeDirectory.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("db/employees")
-public class EmployeeController {
+class EmployeeController {
+
+    private EmployeeService employeeService;
+    private EmployeeMapper employeeMapper;
 
     @Autowired
-    private EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
+        this.employeeService = employeeService;
+        this.employeeMapper = employeeMapper;
+    }
 
     @GetMapping("")
     public ResponseEntity<List<Employee>> getAllEmployees() {
@@ -24,11 +30,12 @@ public class EmployeeController {
     }
 
     @GetMapping("{empId}")
-    public ResponseEntity<Optional<Employee>> getEmployee(@PathVariable int empId) {
-        return new ResponseEntity<>(employeeService.getEmployeeById(empId), HttpStatus.OK);
+    public Employee getEmployee(@PathVariable int empId) {
+        return employeeService.getEmployeeById(empId);
     }
 
     @PostMapping("")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public void addEmployee(@RequestBody Employee employee) {
         employeeService.addEmployee(employee);
     }
@@ -40,7 +47,7 @@ public class EmployeeController {
 
     @PutMapping("")
     public void updateEmployee(@RequestBody Employee employee) {
-        employeeService.updateEmployee( employee);
+        employeeService.updateEmployee(employee);
     }
 
     @GetMapping("dept")
@@ -48,13 +55,16 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmployeesWithDepartments(), HttpStatus.FOUND);
     }
 
+    @PutMapping("{empId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateEmployee(@PathVariable int empId, @RequestBody Employee update) {
+        Employee empFromDb = employeeService.getEmployeeById(empId);
+        employeeMapper.updateEmployee(empFromDb, update);
+        employeeService.updateEmployee(empFromDb);
+    }
+
     @PostConstruct
     public void ready() {
         System.out.println("Rest Controller is ready.");
     }
-
-//    @PutMapping("employees/{empId}")
-//    public void updateEmployee(@PathVariable int empId, @RequestBody Employee employee) {
-//        employeeService.updateEmployee(empId, employee);
-//    }
 }

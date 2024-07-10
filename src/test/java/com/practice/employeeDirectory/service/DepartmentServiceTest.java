@@ -1,7 +1,7 @@
 package com.practice.employeeDirectory.service;
 
-import com.practice.employeeDirectory.dao.DepartmentDAO;
 import com.practice.employeeDirectory.domain.Department;
+import com.practice.employeeDirectory.repository.DepartmentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,14 +17,13 @@ import java.util.Optional;
 import static com.practice.employeeDirectory.factories.DepartmentFactory.createDepartment;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class DepartmentServiceTest {
     @Mock
-    private DepartmentDAO departmentDAO;
+    private DepartmentRepository departmentRepository;
 
     @InjectMocks
     private DepartmentService departmentService;
@@ -33,7 +32,7 @@ class DepartmentServiceTest {
     public void shouldReturnListOfDepartments() {
         // Given
         List<Department> expectedList = Collections.singletonList(createDepartment());
-        when(departmentDAO.findAll()).thenReturn(expectedList);
+        when(departmentRepository.findAll()).thenReturn(expectedList);
 
         // When
         List<Department> actualList = departmentService.getAllDepartments();
@@ -47,10 +46,10 @@ class DepartmentServiceTest {
         // Given
         Department expected = createDepartment();
         String deptNo = expected.getDeptNo();
-        when(departmentDAO.findByDeptNo(deptNo)).thenReturn(Optional.of(expected));
+        when(departmentRepository.findByDeptNo(deptNo)).thenReturn(Optional.of(expected));
 
         // When
-        Optional<Department> actual = departmentDAO.findByDeptNo(deptNo);
+        Optional<Department> actual = departmentRepository.findByDeptNo(deptNo);
 
         // Then
         assertThat(actual.get()).isEqualTo(expected);
@@ -60,10 +59,10 @@ class DepartmentServiceTest {
     public void shouldReturnNullWhenDepartmentDoesNotExist() {
         // Given
         String deptNo = randomAlphabetic(4);
-        when(departmentDAO.findByDeptNo(deptNo)).thenReturn(null);
+        when(departmentRepository.findByDeptNo(deptNo)).thenReturn(null);
 
         // When
-        Optional<Department> actual = departmentDAO.findByDeptNo(deptNo);
+        Optional<Department> actual = departmentRepository.findByDeptNo(deptNo);
 
         // Then
         assertThat(actual).isNull();

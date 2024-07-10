@@ -8,7 +8,7 @@ public class EmployeeDirectoryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeDirectoryApplication.class, args);
-		System.out.println("Hello world!");
+		System.out.println("App Initialized and Running!");
 	}
 
 }
