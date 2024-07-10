@@ -1,41 +1,43 @@
 package com.practice.employeeDirectory.service;
 
 import com.practice.employeeDirectory.domain.Employee;
-import com.practice.employeeDirectory.dao.EmployeeDAO;
+import com.practice.employeeDirectory.exception.EmployeeNotFoundException;
+import com.practice.employeeDirectory.repository.EmployeeRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
 
     @Autowired
-    private EmployeeDAO employeeDAO;
+    private EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
-        return employeeDAO.findAll();
+        return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(int empId) {
-        return employeeDAO.findById(empId);
+    public Employee getEmployeeById(int empId) {
+        if (employeeRepository.findById(empId).isEmpty()) {
+            throw new EmployeeNotFoundException("Employee with the id: " + empId + " does not exist!");
+        }
+        return employeeRepository.findById(empId).get();
     }
 
     public void addEmployee(Employee employee) {
-        employeeDAO.save(employee);
+        employeeRepository.save(employee);
     }
 
     public void deleteEmployee(int empId) {
-        Optional<Employee> employee = getEmployeeById(empId);
-        employeeDAO.delete(employee.get());
+        Employee employee = getEmployeeById(empId);
+        employeeRepository.delete(employee);
     }
 
     // replace the whole employee object
     public void updateEmployee(Employee employee) {
-        employeeDAO.save(employee);
+        employeeRepository.save(employee);
     }
 
     @PostConstruct
@@ -44,7 +46,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesWithDepartments() {
-        return employeeDAO.getEmployeesWithDepartments();
+        return employeeRepository.findEmployeesWithDepartments();
     }
 
     // update all parameters(using the map function) except id, and replace

@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.practice.employeeDirectory.factories.EmployeeFactory.createEmployee;
 import static java.util.Collections.singletonList;
@@ -48,14 +47,13 @@ class EmployeeControllerTest {
         // Given
         Employee expectedEmployee = createEmployee();
         int empId = expectedEmployee.getEmpNo();
-        when(employeeService.getEmployeeById(empId)).thenReturn(Optional.of(expectedEmployee));
+        when(employeeService.getEmployeeById(empId)).thenReturn(expectedEmployee);
 
         // When
-        ResponseEntity<Optional<Employee>> actualEmployee = employeeController.getEmployee(empId);
+        Employee actualEmployee = employeeController.getEmployee(empId);
 
         // Then
-        assertThat(actualEmployee.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actualEmployee.getBody().get()).isEqualTo(expectedEmployee);
+        assertThat(actualEmployee).isEqualTo(expectedEmployee);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.practice.employeeDirectory.service;
 
 import com.practice.employeeDirectory.domain.Department;
-import com.practice.employeeDirectory.dao.DepartmentDAO;
+import com.practice.employeeDirectory.repository.DepartmentRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,14 @@ import java.util.Optional;
 public class DepartmentService {
 
     @Autowired
-    private DepartmentDAO departmentDAO;
+    private DepartmentRepository departmentRepository;
 
     public List<Department> getAllDepartments() {
-        return departmentDAO.findAll();
+        return departmentRepository.findAll();
     }
 
     public Optional<Department> getDepartmentByDeptNo(String deptId) {
-        return departmentDAO.findByDeptNo(deptId);
+        return departmentRepository.findByDeptNo(deptId);
     }
 
 

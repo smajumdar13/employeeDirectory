@@ -2,7 +2,6 @@ package com.practice.employeeDirectory.factories;
 
 import com.practice.employeeDirectory.domain.Department;
 
-import static org.apache.commons.lang3.RandomStringUtils.random;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomUtils.nextInt;
 
