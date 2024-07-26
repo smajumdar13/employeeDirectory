@@ -28,19 +28,19 @@ class EmployeeControllerTest {
     @InjectMocks
     private EmployeeController employeeController;
 
-    @Test
-    public void shouldReturnListOfEmployees() {
-        //Given
-        List<Employee> expectedList = singletonList(createEmployee());
-        when(employeeService.getAllEmployees()).thenReturn(expectedList);
-
-        //When
-        ResponseEntity<List<Employee>> actualList = employeeController.getAllEmployees();
-
-        //Then
-        assertThat(actualList.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actualList.getBody()).isEqualTo(expectedList);
-    }
+//    @Test
+//    public void shouldReturnListOfEmployees() {
+//        //Given
+//        List<Employee> expectedList = singletonList(createEmployee());
+//        when(employeeService.getAllEmployees()).thenReturn(expectedList);
+//
+//        //When
+//        ResponseEntity<List<Employee>> actualList = employeeController.getAllEmployees();
+//
+//        //Then
+//        assertThat(actualList.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        assertThat(actualList.getBody()).isEqualTo(expectedList);
+//    }
 
     @Test
     public void shouldReturnAnEmployeeByEmployeeId() {

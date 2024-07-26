@@ -29,8 +29,9 @@ class EmployeeController {
         return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
+
     @GetMapping("{empId}")
-    public Employee getEmployee(@PathVariable int empId) {
+    public Employee getEmployee(@PathVariable Integer empId) {
         return employeeService.getEmployeeById(empId);
     }
 
@@ -41,7 +42,7 @@ class EmployeeController {
     }
 
     @DeleteMapping("{empId}")
-    public void deleteEmployee(@PathVariable int empId) {
+    public void deleteEmployee(@PathVariable Integer empId) {
         employeeService.deleteEmployee(empId);
     }
 
@@ -51,13 +52,13 @@ class EmployeeController {
     }
 
     @GetMapping("dept")
-    public ResponseEntity<List<Employee>> getEmployeesWithDepartments() {
-        return new ResponseEntity<>(employeeService.getEmployeesWithDepartments(), HttpStatus.FOUND);
+    public ResponseEntity<List<Employee>> getEmployeesWithDept(@RequestParam(value = "id", required = true) String dept) {
+        return new ResponseEntity<>(employeeService.getEmployeesWithDept(dept), HttpStatus.FOUND);
     }
 
     @PutMapping("{empId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateEmployee(@PathVariable int empId, @RequestBody Employee update) {
+    public void updateEmployee(@PathVariable Integer empId, @RequestBody Employee update) {
         Employee empFromDb = employeeService.getEmployeeById(empId);
         employeeMapper.updateEmployee(empFromDb, update);
         employeeService.updateEmployee(empFromDb);

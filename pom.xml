@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.practice</groupId>
-	<artifactId>employeeDirectory</artifactId>
+	<artifactId>EmployeeDirectory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>employeeDirectory</name>
 	<description>Employee Directory</description>
@@ -47,9 +47,9 @@
 			<version>3.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>3.0.0</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

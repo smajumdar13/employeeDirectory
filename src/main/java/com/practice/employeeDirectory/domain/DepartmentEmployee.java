@@ -1,11 +1,9 @@
 package com.practice.employeeDirectory.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalDate;
 
@@ -14,8 +12,15 @@ import java.time.LocalDate;
 @Table(name = "dept_emp")
 public class DepartmentEmployee {
     @Id
+    private Integer id;
+
+    @Column(name = "emp_no")
     private Integer empNo;
+
+    @Column(name = "dept_no")
     private String deptNo;
+
     private LocalDate fromDate;
+
     private LocalDate toDate;
 }

@@ -3,6 +3,8 @@ package com.practice.employeeDirectory.mapper;
 import com.practice.employeeDirectory.domain.Employee;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class EmployeeMapper {
     public Employee updateEmployee(Employee current, Employee update) {
